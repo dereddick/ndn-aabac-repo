@@ -8,6 +8,8 @@
 
 import os
 import sys
+import subprocess
+from subprocess import Popen, PIPE
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 import asyncio as aio
@@ -40,8 +42,26 @@ if not os.environ.get('READTHEDOCS'):
         global app_to_create_packet
         if app_to_create_packet is None:
             app_to_create_packet = NDNApp()
+        
+        #content = b"this is a test"
+        #content = b''
+        content = chr(0).encode()
+        file1 = open("/tmp/encrypt.txt", "wb")
+        file1.write(content)
+        file1.close()
+        #print("Origional ", type(content))
+        #print(bytes(content))
+        #content_hold = subprocess.Popen(['bash', 'test.sh', bytes(content)], stdout=subprocess.PIPE)
+        #print("Check")
+        #content = content_hold.stdout.read()
+        tmp = subprocess.run(['bash', 'test.sh'])
+        #print("Check")
+        file2=open("/tmp/encrypt.txt.cpabe","rb")
+        content=file2.read()
+        file2.close()
+        #print("After ", type(content))
 
-        packet = app_to_create_packet.prepare_data(name, content,
+        packet = app_to_create_packet.prepare_data(name, bytes(content),
                                                 freshness_period=freshness_period,
                                                 final_block_id=final_block_id)
         return bytes(packet)
