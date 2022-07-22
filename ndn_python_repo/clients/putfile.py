@@ -43,19 +43,15 @@ if not os.environ.get('READTHEDOCS'):
         if app_to_create_packet is None:
             app_to_create_packet = NDNApp()
         
+	#CPABE Deployment	
+
         #content = b"this is a test"
         #content = b''
         content = chr(0).encode()
         file1 = open("/tmp/encrypt.txt", "wb")
         file1.write(content)
         file1.close()
-        #print("Origional ", type(content))
-        #print(bytes(content))
-        #content_hold = subprocess.Popen(['bash', 'test.sh', bytes(content)], stdout=subprocess.PIPE)
-        #print("Check")
-        #content = content_hold.stdout.read()
         tmp = subprocess.run(['bash', 'test.sh'])
-        #print("Check")
         file2=open("/tmp/encrypt.txt.cpabe","rb")
         content=file2.read()
         file2.close()
